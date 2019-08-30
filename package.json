@@ -1,0 +1,21 @@
+{
+  "name": "create-npm-react-package",
+  "version": "1.0.1",
+  "description": "Easily create npm react components",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "bin": {
+    "create-npm-react-package": "./index.js"
+  },
+  "dependencies": {
+    "ncp": "^2.0.0"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {}
+}
