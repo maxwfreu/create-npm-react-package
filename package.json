@@ -12,7 +12,8 @@
     "react",
     "npm",
     "package",
-    "cli"
+    "cli",
+    "boilerplate"
   ],
   "license": "ISC",
   "bin": {

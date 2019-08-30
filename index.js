@@ -48,7 +48,7 @@ class PackageCreator {
 
   updatePackageJSON() {
     try {
-      const jsonString = fs.readFileSync(path.join(__dirname, 'skeleton/package.json'))
+      const jsonString = fs.readFileSync(path.join(__dirname, 'boilerplate/package.json'))
       const packageJSON = JSON.parse(jsonString)
       packageJSON.name = this.packageName;
       packageJSON.description = this.description;
@@ -72,7 +72,7 @@ class PackageCreator {
     fs.mkdirSync(this.packageName);
     // Copty the code into it
     const that = this;
-    ncp(path.join(__dirname, 'skeleton'), `./${this.packageName}`, function (err) {
+    ncp(path.join(__dirname, 'boilerplate'), `./${this.packageName}`, function (err) {
       if (err) {
         return console.error(err);
       }
