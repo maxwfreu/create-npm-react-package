@@ -17,6 +17,10 @@ class PackageCreator {
   setPackageName() {
     return new Promise((resolve, reject) => {
       this.rl.question('Package Name: ', (res) => {
+        if (res.indexOf(' ') >= 0) {
+          this.closeFileReader();
+          reject('Package name must not include spaces');
+        }
         if (res) this.packageName = res;
         resolve();
       });
@@ -50,11 +54,12 @@ class PackageCreator {
       packageJSON.author = this.author;
       const packageJSONString = JSON.stringify(packageJSON, null, 2);
       fs.writeFile(`./${this.packageName}/package.json`, packageJSONString, err => {
-          if (err) {
-              console.log('Error writing file', err)
-          } else {
-              console.log('Successfully wrote file')
-          }
+        if (err) {
+          console.log('Error writing file', err)
+        } else {
+          console.log('\x1b[32mSuccess!🎉')
+          console.log('Created Package: ', this.packageName)
+        }
       })
     } catch(err) {
       console.log(err)
@@ -79,13 +84,18 @@ class PackageCreator {
   }
 
   async makePackage() {
-    await this.setPackageName();
-    await this.setDescription();
-    await this.setAuthor();
+    try {
+      await this.setPackageName();
+      await this.setDescription();
+      await this.setAuthor();
+    } catch (e) {
+      console.log(`\x1b[31m${e}`,)
+      return;
+    }
     this.closeFileReader();
     this.generateFiles();
   }
 };
 
-let pc = new PackageCreator();
+const pc = new PackageCreator();
 pc.makePackage();
