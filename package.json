@@ -7,7 +7,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Max Freundlich",
+  "keywords": [
+    "react",
+    "npm",
+    "package",
+    "cli"
+  ],
   "license": "ISC",
   "bin": {
     "create-npm-react-package": "./index.js"
