@@ -16,7 +16,6 @@ create-npm-react-package
 ### Development
 ```
 cd my-package
-npm i
 npm run start
 ```
 The demo page will be available at localhost:3001

@@ -3,6 +3,7 @@ const readline = require('readline');
 const fs = require('fs');
 const { ncp } = require('ncp');
 const path = require('path');
+const child_process = require('child_process');
 
 class PackageCreator {
   constructor() {
@@ -58,8 +59,10 @@ class PackageCreator {
         if (err) {
           console.log('Error writing file', err)
         } else {
+          console.log('Installing Dependencies..')
+          child_process.execSync(`cd ${this.packageName} && npm i`,{stdio:[0,1,2]});
           console.log('\x1b[32mSuccess!🎉')
-          console.log('Created Package: ', this.packageName)
+          console.log('Created Package:', this.packageName)
         }
       })
     } catch(err) {
@@ -69,8 +72,9 @@ class PackageCreator {
   }
 
   generateFiles() {
+    console.log('Creating files')
     fs.mkdirSync(this.packageName);
-    // Copty the code into it
+    // Copy the code into it
     const that = this;
     ncp(path.join(__dirname, 'boilerplate'), `./${this.packageName}`, function (err) {
       if (err) {
