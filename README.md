@@ -11,12 +11,23 @@ npm i -g create-npm-react-package
 ### Usage
 ```
 create-npm-react-package
-Package Name:
-Description:
-Author:
-..
+```
+
+### Development
+```
 cd my-package
 npm i
 npm run start
 ```
 The demo page will be available at localhost:3001
+
+### Deployment
+Login to npm with
+```
+npm login
+```
+
+Then, build and publish your package:
+```
+npm run deploy
+```
