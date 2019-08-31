@@ -1,6 +1,6 @@
 {
   "name": "create-npm-react-package",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Easily create npm react components",
   "main": "index.js",
   "homepage": "https://github.com/maxwfreu/create-npm-react-package",

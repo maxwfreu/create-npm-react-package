@@ -1,5 +1,5 @@
 # create-npm-react-package
-Easily create react packages to be distrubuted via NPM.
+Easily create react packages to be distributed via NPM.
 
 This package will set you up with a simple starter for your new react component package.
 
