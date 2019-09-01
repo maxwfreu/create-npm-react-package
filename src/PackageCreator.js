@@ -15,40 +15,60 @@ class PackageCreator {
     });
   }
 
-  setPackageName() {
+  setPackageName(packageName) {
+    this.packageName = packageName;
+  }
+
+  setDescription(description) {
+    this.description = description;
+  }
+
+  setAuthor(author) {
+    this.author = author;
+  }
+
+  promptUser(question, setter, validator = (() => null)) {
     return new Promise((resolve, reject) => {
-      this.rl.question('Package Name: ', (res) => {
-        if (res.indexOf(' ') >= 0) {
-          this.closeFileReader();
-          reject('Package name must not include spaces');
-        }
-        if (res) this.packageName = res;
+      this.rl.question(question, (res) => {
+        validator(res, reject);
+        if (res) setter();
         resolve();
       });
     });
   }
 
-  setDescription() {
-    return new Promise((resolve, reject) => {
-      this.rl.question('Description: ', (res) => {
-        if (res) this.description = res;
-        resolve();
-      });
-    })
+  validatePackageName(packageName, reject) {
+    if (packageName.indexOf(' ') >= 0) {
+      this.closeFileReader();
+      reject('Package name must not include spaces');
+    }
   }
 
-  setAuthor() {
-    return new Promise((resolve, reject) => {
-      this.rl.question('Author: ', (res) => {
-        if (res) this.author = res;
-        resolve();
-      });
-    })
+  getPackageNameFromUser() {
+    return this.promptUser(
+      'Package Name: ',
+      this.setPackageName,
+      this.validatePackageName
+    );
+  }
+
+  getDescriptionFromUser() {
+    return this.promptUser(
+      'Description: ',
+      this.setDescription,
+    );
+  }
+
+  getAuthorFromUser() {
+    return this.promptUser(
+      'Author: ',
+      this.setAuthor,
+    );
   }
 
   updatePackageJSON() {
     try {
-      const jsonString = fs.readFileSync(path.join(__dirname, 'boilerplate/package.json'))
+      const jsonString = fs.readFileSync(path.join(__dirname, '../boilerplate/package.json'))
       const packageJSON = JSON.parse(jsonString)
       packageJSON.name = this.packageName;
       packageJSON.description = this.description;
@@ -75,7 +95,7 @@ class PackageCreator {
     fs.mkdirSync(this.packageName);
     // Copy the code into it
     const that = this;
-    ncp(path.join(__dirname, 'boilerplate'), `./${this.packageName}`, function (err) {
+    ncp(path.join(__dirname, '../boilerplate'), `./${this.packageName}`, function (err) {
       if (err) {
         return console.error(err);
       }
@@ -89,9 +109,9 @@ class PackageCreator {
 
   async makePackage() {
     try {
-      await this.setPackageName();
-      await this.setDescription();
-      await this.setAuthor();
+      await this.getPackageNameFromUser();
+      await this.getDescriptionFromUser();
+      await this.getAuthorFromUser();
     } catch (e) {
       console.log(`\x1b[31m${e}`,)
       return;
