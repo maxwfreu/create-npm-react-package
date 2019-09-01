@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "homepage": "https://github.com/maxwfreu/create-npm-react-package",
   "scripts": {
-    "test": "mocha tests/*.test.js"
+    "test": "nyc --reporter=lcov mocha tests/*.test.js"
   },
   "author": "Max Freundlich",
   "keywords": [
@@ -30,6 +30,7 @@
     "eslint": "^6.3.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2",
-    "mocha": "^6.2.0"
+    "mocha": "^6.2.0",
+    "nyc": "^14.1.1"
   }
 }
