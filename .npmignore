@@ -4,6 +4,6 @@ tests/
 coverage/
 
 .DS_STORE
-.eslintrc.json
+.eslintrc.js
 .github
 .nyc_output/
