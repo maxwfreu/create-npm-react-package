@@ -33,17 +33,17 @@ describe('PackageCreator', () => {
 
   describe('setters', () => {
     it('should set the packageName', () => {
-      packageCreator.setPackageName('test-package-name')
+      packageCreator.setPackageName('test-package-name');
       expect(packageCreator.packageName).to.equal('test-package-name');
     });
 
     it('should set the description', () => {
-      packageCreator.setDescription('Test Description')
+      packageCreator.setDescription('Test Description');
       expect(packageCreator.description).to.equal('Test Description');
     });
 
     it('should set the author', () => {
-      packageCreator.setAuthor('Test Author')
+      packageCreator.setAuthor('Test Author');
       expect(packageCreator.author).to.equal('Test Author');
     });
   });
