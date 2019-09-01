@@ -34,31 +34,33 @@ class PackageCreator {
     }
   }
 
-  getPackageNameFromUser() {
+  promptUser(question, handler) {
     return new Promise((resolve, reject) => {
-      this.rl.question('Package Name: ', (res) => {
-        this.validatePackageName(res, reject);
-        if (res) this.setPackageName(res);
-        resolve();
+      this.rl.question(question, (res) => {
+        handler(res, resolve, reject);
       });
+    });
+  }
+
+  getPackageNameFromUser() {
+    return this.promptUser('Package Name: ', (res, resolve, reject) => {
+      this.validatePackageName(res, reject);
+      if (res) this.setPackageName(res);
+      resolve();
     });
   }
 
   getDescriptionFromUser() {
-    return new Promise((resolve) => {
-      this.rl.question('Description: ', (res) => {
-        if (res) this.setDescription(res);
-        resolve();
-      });
+    return this.promptUser('Description: ', (res, resolve) => {
+      if (res) this.setDescription(res);
+      resolve();
     });
   }
 
   getAuthorFromUser() {
-    return new Promise((resolve) => {
-      this.rl.question('Author: ', (res) => {
-        if (res) this.setAuthor(res);
-        resolve();
-      });
+    return this.promptUser('Author: ', (res, resolve) => {
+      if (res) this.setAuthor(res);
+      resolve();
     });
   }
 
