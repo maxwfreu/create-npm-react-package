@@ -2,7 +2,7 @@ const readline = require('readline');
 const fs = require('fs');
 const { ncp } = require('ncp');
 const path = require('path');
-const child_process = require('child_process');
+const childProcess = require('child_process');
 
 class PackageCreator {
   constructor() {
@@ -11,7 +11,7 @@ class PackageCreator {
     this.author = 'Me';
     this.rl = readline.createInterface({
       input: process.stdin,
-      output: process.stdout
+      output: process.stdout,
     });
   }
 
@@ -45,7 +45,7 @@ class PackageCreator {
   }
 
   getDescriptionFromUser() {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       this.rl.question('Description: ', (res) => {
         if (res) this.setDescription(res);
         resolve();
@@ -54,7 +54,7 @@ class PackageCreator {
   }
 
   getAuthorFromUser() {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       this.rl.question('Author: ', (res) => {
         if (res) this.setAuthor(res);
         resolve();
@@ -64,38 +64,38 @@ class PackageCreator {
 
   updatePackageJSON() {
     try {
-      const jsonString = fs.readFileSync(path.join(__dirname, '../boilerplate/package.json'))
-      const packageJSON = JSON.parse(jsonString)
+      const jsonString = fs.readFileSync(path.join(__dirname, '../boilerplate/package.json'));
+      const packageJSON = JSON.parse(jsonString);
       packageJSON.name = this.packageName;
       packageJSON.description = this.description;
       packageJSON.author = this.author;
       const packageJSONString = JSON.stringify(packageJSON, null, 2);
-      fs.writeFile(`./${this.packageName}/package.json`, packageJSONString, err => {
+      fs.writeFile(`./${this.packageName}/package.json`, packageJSONString, (err) => {
         if (err) {
-          console.log('Error writing file', err)
+          console.log('Error writing file', err);
         } else {
-          console.log('Installing Dependencies..')
-          child_process.execSync(`cd ${this.packageName} && npm i`,{stdio:[0,1,2]});
-          console.log('\x1b[32mSuccess!🎉')
-          console.log('Created Package:', this.packageName)
+          console.log('Installing Dependencies..');
+          childProcess.execSync(`cd ${this.packageName} && npm i`, { stdio: [0, 1, 2] });
+          console.log('\x1b[32mSuccess!🎉');
+          console.log('Created Package:', this.packageName);
         }
-      })
-    } catch(err) {
-      console.log(err)
-      return
+      });
+    } catch (err) {
+      console.log(err);
     }
   }
 
   generateFiles() {
-    console.log('Creating files')
+    console.log('Creating files');
     fs.mkdirSync(this.packageName);
     // Copy the code into it
     const that = this;
-    ncp(path.join(__dirname, '../boilerplate'), `./${this.packageName}`, function (err) {
+    ncp(path.join(__dirname, '../boilerplate'), `./${this.packageName}`, (err) => {
       if (err) {
-        return console.error(err);
+        console.error(err);
+      } else {
+        that.updatePackageJSON();
       }
-      that.updatePackageJSON();
     });
   }
 
@@ -109,12 +109,12 @@ class PackageCreator {
       await this.getDescriptionFromUser();
       await this.getAuthorFromUser();
     } catch (e) {
-      console.log(`\x1b[31m${e}`,)
+      console.log(`\x1b[31m${e}`);
       return;
     }
     this.closeFileReader();
     this.generateFiles();
   }
-};
+}
 
 module.exports = PackageCreator;
