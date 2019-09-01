@@ -1,5 +1,6 @@
 # create-npm-react-package
 [![Actions Status](https://github.com/maxwfreu/create-npm-react-package/workflows/Tests/badge.svg)](https://github.com/maxwfreu/create-npm-react-package/actions)
+[![Maintainability](https://api.codeclimate.com/v1/badges/d84f9935c0ab2c7a3bf5/maintainability)](https://codeclimate.com/github/maxwfreu/create-npm-react-package/maintainability)
 
 Easily create react packages to be distributed via NPM.
 
