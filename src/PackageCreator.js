@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 const readline = require('readline');
 const fs = require('fs');
 const { ncp } = require('ncp');
@@ -16,40 +15,56 @@ class PackageCreator {
     });
   }
 
-  setPackageName() {
+  setPackageName(packageName) {
+    this.packageName = packageName;
+  }
+
+  setDescription(description) {
+    this.description = description;
+  }
+
+  setAuthor(author) {
+    this.author = author;
+  }
+
+  validatePackageName(packageName, reject) {
+    if (packageName.indexOf(' ') >= 0) {
+      this.closeFileReader();
+      reject('Package name must not include spaces');
+    }
+  }
+
+  getPackageNameFromUser() {
     return new Promise((resolve, reject) => {
       this.rl.question('Package Name: ', (res) => {
-        if (res.indexOf(' ') >= 0) {
-          this.closeFileReader();
-          reject('Package name must not include spaces');
-        }
-        if (res) this.packageName = res;
+        this.validatePackageName(res, reject);
+        if (res) this.setPackageName(res);
         resolve();
       });
     });
   }
 
-  setDescription() {
+  getDescriptionFromUser() {
     return new Promise((resolve, reject) => {
       this.rl.question('Description: ', (res) => {
-        if (res) this.description = res;
+        if (res) this.setDescription(res);
         resolve();
       });
-    })
+    });
   }
 
-  setAuthor() {
+  getAuthorFromUser() {
     return new Promise((resolve, reject) => {
       this.rl.question('Author: ', (res) => {
-        if (res) this.author = res;
+        if (res) this.setAuthor(res);
         resolve();
       });
-    })
+    });
   }
 
   updatePackageJSON() {
     try {
-      const jsonString = fs.readFileSync(path.join(__dirname, 'boilerplate/package.json'))
+      const jsonString = fs.readFileSync(path.join(__dirname, '../boilerplate/package.json'))
       const packageJSON = JSON.parse(jsonString)
       packageJSON.name = this.packageName;
       packageJSON.description = this.description;
@@ -76,7 +91,7 @@ class PackageCreator {
     fs.mkdirSync(this.packageName);
     // Copy the code into it
     const that = this;
-    ncp(path.join(__dirname, 'boilerplate'), `./${this.packageName}`, function (err) {
+    ncp(path.join(__dirname, '../boilerplate'), `./${this.packageName}`, function (err) {
       if (err) {
         return console.error(err);
       }
@@ -90,9 +105,9 @@ class PackageCreator {
 
   async makePackage() {
     try {
-      await this.setPackageName();
-      await this.setDescription();
-      await this.setAuthor();
+      await this.getPackageNameFromUser();
+      await this.getDescriptionFromUser();
+      await this.getAuthorFromUser();
     } catch (e) {
       console.log(`\x1b[31m${e}`,)
       return;
@@ -102,5 +117,4 @@ class PackageCreator {
   }
 };
 
-const pc = new PackageCreator();
-pc.makePackage();
+module.exports = PackageCreator;

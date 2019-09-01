@@ -1,11 +1,11 @@
 {
   "name": "create-npm-react-package",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Easily create npm react components",
-  "main": "index.js",
+  "main": "src/index.js",
   "homepage": "https://github.com/maxwfreu/create-npm-react-package",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha tests/*.test.js"
   },
   "author": "Max Freundlich",
   "keywords": [
@@ -17,7 +17,7 @@
   ],
   "license": "ISC",
   "bin": {
-    "create-npm-react-package": "./index.js"
+    "create-npm-react-package": "./src/index.js"
   },
   "dependencies": {
     "ncp": "^2.0.0"
@@ -25,5 +25,8 @@
   "directories": {
     "test": "test"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.0"
+  }
 }
