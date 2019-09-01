@@ -1,4 +1,5 @@
 const { expect } = require('chai');
+const sinon = require('sinon');
 const PackageCreator = require('../src/PackageCreator');
 
 describe('PackageCreator', () => {
@@ -45,6 +46,27 @@ describe('PackageCreator', () => {
     it('should set the author', () => {
       packageCreator.setAuthor('Test Author');
       expect(packageCreator.author).to.equal('Test Author');
+    });
+  });
+
+  describe('validation', () => {
+    beforeEach(() => {
+      packageCreator.closeFileReader();
+      packageCreator.closeFileReader = sinon.stub();
+    });
+
+    it('should disallow package names with spaces', () => {
+      const reject = sinon.stub();
+      packageCreator.validatePackageName('Test Package', reject);
+      expect(packageCreator.closeFileReader.called).to.equal(true);
+      expect(reject.called).to.equal(true);
+    });
+
+    it('should allow package names without spaces', () => {
+      const reject = sinon.stub();
+      packageCreator.validatePackageName('TestPackage', reject);
+      expect(packageCreator.closeFileReader.called).to.equal(false);
+      expect(reject.called).to.equal(false);
     });
   });
 });
