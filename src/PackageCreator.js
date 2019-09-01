@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 const readline = require('readline');
 const fs = require('fs');
 const { ncp } = require('ncp');
@@ -102,5 +101,4 @@ class PackageCreator {
   }
 };
 
-const pc = new PackageCreator();
-pc.makePackage();
+module.exports = PackageCreator;
