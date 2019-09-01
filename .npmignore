@@ -5,4 +5,4 @@ tests/
 .DS_STORE
 .eslintrc.json
 .github
-
+.nyc_output/
