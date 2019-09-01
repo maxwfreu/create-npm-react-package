@@ -27,16 +27,6 @@ class PackageCreator {
     this.author = author;
   }
 
-  promptUser(question, setter, validator = (() => null)) {
-    return new Promise((resolve, reject) => {
-      this.rl.question(question, (res) => {
-        validator(res, reject);
-        if (res) setter();
-        resolve();
-      });
-    });
-  }
-
   validatePackageName(packageName, reject) {
     if (packageName.indexOf(' ') >= 0) {
       this.closeFileReader();
@@ -45,25 +35,31 @@ class PackageCreator {
   }
 
   getPackageNameFromUser() {
-    return this.promptUser(
-      'Package Name: ',
-      this.setPackageName,
-      this.validatePackageName
-    );
+    return new Promise((resolve, reject) => {
+      this.rl.question('Package Name: ', (res) => {
+        this.validatePackageName(res, reject);
+        if (res) this.setPackageName(res);
+        resolve();
+      });
+    });
   }
 
   getDescriptionFromUser() {
-    return this.promptUser(
-      'Description: ',
-      this.setDescription,
-    );
+    return new Promise((resolve, reject) => {
+      this.rl.question('Description: ', (res) => {
+        if (res) this.setDescription(res);
+        resolve();
+      });
+    });
   }
 
   getAuthorFromUser() {
-    return this.promptUser(
-      'Author: ',
-      this.setAuthor,
-    );
+    return new Promise((resolve, reject) => {
+      this.rl.question('Author: ', (res) => {
+        if (res) this.setAuthor(res);
+        resolve();
+      });
+    });
   }
 
   updatePackageJSON() {
