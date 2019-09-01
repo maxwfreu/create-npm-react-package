@@ -1,4 +1,6 @@
 # create-npm-react-package
+[![Actions Status](https://github.com/maxwfreu/create-npm-react-package/workflows/Tests/badge.svg)](https://github.com/maxwfreu/create-npm-react-package/actions)
+
 Easily create react packages to be distributed via NPM.
 
 This package will set you up with a simple starter for your new react component package.
