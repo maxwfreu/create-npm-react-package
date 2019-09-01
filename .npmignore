@@ -1,6 +1,7 @@
 node_modules/
 images/
 tests/
+coverage/
 
 .DS_STORE
 .eslintrc.json
