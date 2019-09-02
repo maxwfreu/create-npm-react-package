@@ -1,6 +1,10 @@
-const { expect } = require('chai');
+const chai = require('chai');
 const sinon = require('sinon');
+const sinonChai = require('sinon-chai');
 const PackageCreator = require('../src/PackageCreator');
+
+const { expect } = chai;
+chai.use(sinonChai);
 
 describe('PackageCreator', () => {
   let packageCreator;
@@ -67,6 +71,53 @@ describe('PackageCreator', () => {
       packageCreator.validatePackageName('TestPackage', reject);
       expect(packageCreator.closeFileReader.called).to.equal(false);
       expect(reject.called).to.equal(false);
+    });
+  });
+
+  describe('stubbed user prompts', () => {
+    beforeEach(() => {
+      packageCreator.closeFileReader();
+      packageCreator.promptUser = sinon.stub();
+      packageCreator.promptUser.returns(true);
+    });
+
+    describe('getPackageNameFromUser', () => {
+      it('prompts with correct question', () => {
+        packageCreator.getPackageNameFromUser();
+        expect(packageCreator.promptUser.called).to.equal(true);
+        expect(packageCreator.promptUser).to.have.been.calledWith('Package Name: ');
+      });
+
+      it('returns result of promptUser', () => {
+        const res = packageCreator.getPackageNameFromUser();
+        expect(res).to.equal(true);
+      });
+    });
+
+    describe('getDescriptionFromUser', () => {
+      it('prompts with correct question', () => {
+        packageCreator.getDescriptionFromUser();
+        expect(packageCreator.promptUser.called).to.equal(true);
+        expect(packageCreator.promptUser).to.have.been.calledWith('Description: ');
+      });
+
+      it('returns result of promptUser', () => {
+        const res = packageCreator.getDescriptionFromUser();
+        expect(res).to.equal(true);
+      });
+    });
+
+    describe('getAuthorFromUser', () => {
+      it('prompts with correct question', () => {
+        packageCreator.getAuthorFromUser();
+        expect(packageCreator.promptUser.called).to.equal(true);
+        expect(packageCreator.promptUser).to.have.been.calledWith('Author: ');
+      });
+
+      it('returns result of promptUser', () => {
+        const res = packageCreator.getAuthorFromUser();
+        expect(res).to.equal(true);
+      });
     });
   });
 });
