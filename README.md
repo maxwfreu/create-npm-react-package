@@ -35,3 +35,6 @@ Then, build and publish your package:
 ```
 npm run deploy
 ```
+
+### Publishing
+In order to publish to NPM, you will need to create an account at https://www.npmjs.com/login. Once you’ve created your account, run npm login within your terminal. Once logged in, move into your newly created directory and run `npm run deploy`. This will build a production optimized version of your application and publish it to npm.
